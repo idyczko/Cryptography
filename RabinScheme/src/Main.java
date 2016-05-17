@@ -6,7 +6,7 @@ public class Main {
 		RabinSystem rabinSystem = new RabinSystem(64);
 		BigInteger message = BigInteger.valueOf(15);
 		BigInteger ciphertext = rabinSystem.encrypt(message);
-		for(BigInteger i : rabinSystem.decrypt(ciphertext))
+		for (BigInteger i : rabinSystem.decrypt(ciphertext))
 			System.out.println(i);
 	}
 
