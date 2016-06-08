@@ -1,0 +1,11 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		DiningCryptographers d = new DiningCryptographers(41, Topography.valueOf("NET"));
+		d.display();
+		System.out.println("NSA pays: "+(d.getPayingCryptographer()==d.getNodes()));
+		System.out.println("NSA pays: "+(CustomMathLib.xor(d.getAnnouncement())==0));
+	}
+
+}

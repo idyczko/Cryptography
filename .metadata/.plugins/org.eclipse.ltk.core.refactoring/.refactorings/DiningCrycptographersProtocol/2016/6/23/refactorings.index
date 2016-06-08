@@ -1,1 +1,5 @@
 1465377528195	Extract method 'createRingTopography'
+1465383349288	Rename method 'setCommunication'
+1465384554616	Extract method 'selectPayingNode'
+1465385449857	Rename local variable 'diningCryptographers'
+1465386406560	Extract method 'setAnnouncementForRing'

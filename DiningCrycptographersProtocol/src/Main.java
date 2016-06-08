@@ -2,8 +2,10 @@
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		DiningCryptographers d = new DiningCryptographers(8, Topography.valueOf("NET"));
+		d.display();
+		System.out.println("NSA pays: "+(d.getPayingCryptographer()==d.getNodes()));
+		System.out.println("NSA pays: "+(CustomMathLib.xor(d.getAnnouncement())==0));
 	}
 
 }

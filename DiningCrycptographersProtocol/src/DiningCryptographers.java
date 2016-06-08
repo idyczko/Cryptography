@@ -1,25 +1,120 @@
+import java.util.Random;
 
 public class DiningCryptographers {
 	private int nodes;
 	private Topography topography;
+	private int payingCryptographer;
 	private int[][] network;
+	private int[][] communication;
+	private int[] announcement;
 
 	public DiningCryptographers(int nodes, Topography topography) {
 		this.nodes = nodes;
 		this.topography = topography;
 		this.network = new int[nodes][nodes];
+		this.communication = new int[nodes][nodes];
+		this.announcement = new int[nodes];
+
 		if (topography == Topography.RING) {
 			createRingTopography();
-			return;
+		} else {
+			createNetTopography();
 		}
-		createNetTopography();
+
+		selectPayingNode();
+
+		establishCommunication();
+		setAnnouncement();
+	}
+
+	private void setAnnouncement() {
+		if (this.topography == Topography.RING) {
+			setAnnouncementForRing();
+		} else {
+			setAnnouncementForNet();
+		}
+	}
+
+	private void setAnnouncementForNet() {
+		int[] temporaryTable = new int[this.nodes - 1];
+		for (int i = 0; i < this.nodes; i++) {
+			int index = 0;
+			for (int j = 0; j < this.nodes; j++) {
+				if (i != j) {
+					temporaryTable[index++] = communication[i][j];
+				}
+			}
+			if (i == this.payingCryptographer) {
+				this.announcement[i] = CustomMathLib.negxor(temporaryTable);
+			} else {
+				this.announcement[i] = CustomMathLib.xor(temporaryTable);
+			}
+		}
+	}
+
+	private void setAnnouncementForRing() {
+		for (int i = 0; i < this.nodes; i++) {
+			if (i == this.payingCryptographer) {
+				this.announcement[i] = CustomMathLib.negxor(
+						this.communication[i][CustomMathLib.modulo((i - 1), this.nodes)],
+						this.communication[i][CustomMathLib.modulo((i + 1), this.nodes)]);
+			} else {
+				this.announcement[i] = CustomMathLib.xor(
+						this.communication[i][CustomMathLib.modulo((i - 1), this.nodes)],
+						this.communication[i][CustomMathLib.modulo((i + 1), this.nodes)]);
+			}
+		}
+	}
+
+	private void selectPayingNode() {
+		Random random = new Random();
+		if (random.nextBoolean()) {
+			this.payingCryptographer = this.nodes;
+		} else {
+			this.payingCryptographer = random.nextInt(this.nodes);
+		}
+	}
+
+	private void establishCommunication() {
+		Random random = new Random();
+		for (int i = 0; i < this.nodes; i++) {
+			for (int j = 0; j < this.nodes && j < i; j++) {
+				if (i != j && this.network[i][j] == 1) {
+					this.communication[i][j] = this.communication[j][i] = random.nextInt(2);
+				}
+			}
+		}
+	}
+
+	public int getPayingCryptographer() {
+		return payingCryptographer;
+	}
+
+	public int[][] getCommunication() {
+		return communication;
+	}
+
+	public int[] getAnnouncement() {
+		return announcement;
+	}
+
+	public int getNodes() {
+		return nodes;
+	}
+
+	public Topography getTopography() {
+		return topography;
+	}
+
+	public int[][] getNetwork() {
+		return network;
 	}
 
 	private void createNetTopography() {
 		for (int i = 0; i < this.nodes; i++) {
-			for (int j = 0; j < this.nodes; j++) {
+			for (int j = 0; j < this.nodes && j < i; j++) {
 				if (i != j) {
-					this.network[i][j] = 1;
+					this.network[i][j] = this.network[j][i] = 1;
 				}
 			}
 		}
@@ -27,8 +122,33 @@ public class DiningCryptographers {
 
 	private void createRingTopography() {
 		for (int i = 0; i < this.nodes; i++) {
-			this.network[i][(i - 1) % i] = this.network[i][(i + 1) % i] = 1;
+			this.network[i][CustomMathLib.modulo((i - 1),
+					this.nodes)] = this.network[i][CustomMathLib.modulo((i + 1), this.nodes)] = 1;
 		}
+	}
+
+	public void display() {
+		System.out.println("Network:");
+		for (int i = 0; i < this.nodes; i++) {
+			for (int j = 0; j < this.nodes; j++) {
+				System.out.print(this.network[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("Communication:");
+		for (int i = 0; i < this.nodes; i++) {
+			for (int j = 0; j < this.nodes; j++) {
+				System.out.print(this.communication[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println("Announcement tab:");
+		for (int i = 0; i < this.nodes; i++) {
+			System.out.print(this.announcement[i]+" ");
+		}
+		System.out.println();
 	}
 
 }

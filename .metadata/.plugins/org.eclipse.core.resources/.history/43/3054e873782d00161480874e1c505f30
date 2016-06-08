@@ -1,0 +1,34 @@
+
+public class CustomMathLib {
+
+	public static int modulo(int a, int b) {
+		return a > 0 ? a % b : (b - Math.abs(a) % b) % b;
+	}
+
+	public static int xor(int a, int b) {
+		if (a == b) {
+			return 0;
+		}
+		return 1;
+	}
+
+	public static int xor(int tab[]) {
+		int xorResult = tab[0];
+		for (int i = 1; i < tab.length; i++) {
+			xorResult = CustomMathLib.xor(xorResult, tab[i]);
+		}
+		return xorResult;
+	}
+
+	public static int negxor(int tab[]) {
+		int xorResult = CustomMathLib.xor(tab);
+		return xorResult==1?0:1;
+	}
+
+	public static int negxor(int a, int b) {
+		if (a == b) {
+			return 1;
+		}
+		return 0;
+	}
+}

@@ -1,0 +1,119 @@
+import java.util.Random;
+
+public class DiningCryptographers {
+	private int nodes;
+	private Topography topography;
+	private int payingCryptographer;
+	private int[][] network;
+	private int[][] communication;
+	private int[] announcement;
+
+	public DiningCryptographers(int nodes, Topography topography) {
+		this.nodes = nodes;
+		this.topography = topography;
+		this.network = new int[nodes][nodes];
+		this.communication = new int[nodes][nodes];
+		this.announcement = new int[nodes];
+
+		if (topography == Topography.RING) {
+			createRingTopography();
+		} else {
+			createNetTopography();
+		}
+
+		selectPayingNode();
+
+		establishCommunication();
+		setAnnouncement();
+	}
+
+	private void setAnnouncement() {
+		if(this.topography == topography.RING){
+			for(int i = 0;i<this.nodes; i++){
+				if(i==this.payingCryptographer){
+					this.announcement[i] = CustomMathLib.xor(this.communication[i][CustomMathLib.modulo((i - 1), this.nodes)], this.communication[i][CustomMathLib.modulo((i + 1), this.nodes)])
+					
+				}
+			}
+		}
+	}
+
+	private void selectPayingNode() {
+		Random random = new Random();
+		if (random.nextBoolean()) {
+			this.payingCryptographer = this.nodes;
+		} else {
+			this.payingCryptographer = random.nextInt(this.nodes);
+		}
+	}
+
+	private void establishCommunication() {
+		Random random = new Random();
+		for (int i = 0; i < this.nodes; i++) {
+			for (int j = 0; j < this.nodes && j < i; j++) {
+				if (i != j && this.network[i][j] == 1) {
+					this.communication[i][j] = this.communication[j][i] = random.nextInt(2);
+				}
+			}
+		}
+	}
+
+	public int getPayingCryptographer() {
+		return payingCryptographer;
+	}
+
+	public int[][] getCommunication() {
+		return communication;
+	}
+
+	public int[] getAnnouncement() {
+		return announcement;
+	}
+
+	public int getNodes() {
+		return nodes;
+	}
+
+	public Topography getTopography() {
+		return topography;
+	}
+
+	public int[][] getNetwork() {
+		return network;
+	}
+
+	private void createNetTopography() {
+		for (int i = 0; i < this.nodes; i++) {
+			for (int j = 0; j < this.nodes && j < i; j++) {
+				if (i != j) {
+					this.network[i][j] = this.network[j][i] = 1;
+				}
+			}
+		}
+	}
+
+	private void createRingTopography() {
+		for (int i = 0; i < this.nodes; i++) {
+			this.network[i][CustomMathLib.modulo((i - 1),
+					this.nodes)] = this.network[i][CustomMathLib.modulo((i + 1), this.nodes)] = 1;
+		}
+	}
+
+	public void display() {
+		for (int i = 0; i < this.nodes; i++) {
+			System.out.println();
+			for (int j = 0; j < this.nodes; j++) {
+				System.out.print(this.network[i][j] + " ");
+			}
+		}
+		System.out.println();
+		for (int i = 0; i < this.nodes; i++) {
+			System.out.println();
+			for (int j = 0; j < this.nodes; j++) {
+				System.out.print(this.communication[i][j] + " ");
+			}
+		}
+		System.out.println();
+	}
+
+}
