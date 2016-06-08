@@ -1,0 +1,12 @@
+
+public class DiningCryptographers {
+int nodes;
+Topography topography;
+
+public DiningCryptographers(int nodes, Topography topography) {
+	this.nodes = nodes;
+	this.topography = topography;
+}
+		
+
+}

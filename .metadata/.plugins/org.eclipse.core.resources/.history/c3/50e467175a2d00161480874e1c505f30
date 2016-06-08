@@ -1,0 +1,22 @@
+
+public class DiningCryptographers {
+	int nodes;
+	Topography topography;
+	int[][] network;
+
+	public DiningCryptographers(int nodes, Topography topography) {
+		this.nodes = nodes;
+		this.topography = topography;
+		if (topography == Topography.RING)
+			createRingTopography(nodes);
+	}
+
+	private void createRingTopography(int nodes) {
+		for (int i = 0; i < nodes; i++) {
+			for (int j = 0; j < nodes; j++) {
+
+			}
+		}
+	}
+
+}

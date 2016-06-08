@@ -1,0 +1,6 @@
+
+public class DiningCryptographers {
+int nodes;
+Topography topography;
+		
+}

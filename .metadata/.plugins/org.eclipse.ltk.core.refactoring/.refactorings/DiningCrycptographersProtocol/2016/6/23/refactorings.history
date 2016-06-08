@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract method &apos;private void createRingTopography(int nodes)&apos; from &apos;DiningCryptographers.DiningCryptographers()&apos; to &apos;DiningCryptographers&apos;&#x0D;&#x0A;- Original project: &apos;DiningCrycptographersProtocol&apos;&#x0D;&#x0A;- Method name: &apos;createRingTopography&apos;&#x0D;&#x0A;- Destination type: &apos;DiningCryptographers&apos;&#x0D;&#x0A;- Declared visibility: &apos;private&apos;" comments="false" description="Extract method &apos;createRingTopography&apos;" destination="0" exceptions="false" flags="786434" id="org.eclipse.jdt.ui.extract.method" input="/src&lt;{DiningCryptographers.java" name="createRingTopography" replace="false" selection="222 88" stamp="1465377528195" version="1.0" visibility="2"/>
+</session>
